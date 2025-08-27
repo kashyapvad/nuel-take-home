@@ -62,4 +62,28 @@ I built a real-time inventory dashboard for SupplySight in about 4 hours. The ap
 - Mock GraphQL server runs in-browser.  
 - Minimal validation (alerts instead of toasts).  
 - No tests (time-boxed).  
-- Desktop-first (limited mobile resp)
+- Desktop-first (limited mobile responsive).
+
+---
+
+## What I'd Improve (with more time)
+
+### Next 2 hours
+- Replace `alert()` with proper toast notifications
+- Add unit tests for business logic (status calcs, fill rate)
+- Better loading states (keep last data while refetching)
+- Form validation with helpful error messages
+- Keyboard navigation (arrow keys in table)
+
+### Next day
+- Export to CSV/Excel functionality  
+- Mobile responsive design
+- Dark mode toggle
+
+### Next week
+- WebSocket subscriptions for real-time updates (no polling)
+- Bulk operations (select multiple products)
+- Advanced filters (date ranges, stock thresholds)
+- Undo/redo for mutations
+- Performance monitoring (Sentry)
+- E2E tests with Playwright
