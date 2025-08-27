@@ -54,7 +54,6 @@ I built a real-time inventory dashboard for SupplySight in about 4 hours. The ap
 
 ### KPIs Show Global Totals
 - KPIs intentionally show **all inventory**, not filtered results
-- This gives managers the full picture while drilling into details below
 - Filtered totals would be confusing when warehouse filter is applied
 
 ### Trends vs KPIs Separation  
