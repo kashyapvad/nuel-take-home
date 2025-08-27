@@ -34,7 +34,9 @@ export const resolvers = {
       return { items, totalCount };
     },
     warehouses: () => warehouses,
-    kpis: () => {
+    kpis: (_, { range }) => {
+      // In a real system, range would affect historical calculations
+      // For this demo, I'm showing current snapshot (range affects trends chart instead)
       const totalStock = mockProducts.reduce((sum, p) => sum + p.stock, 0);
       const totalDemand = mockProducts.reduce((sum, p) => sum + p.demand, 0);
       const filledDemand = mockProducts.reduce((sum, p) => sum + Math.min(p.stock, p.demand), 0);

@@ -50,12 +50,26 @@ I built a real-time inventory dashboard for SupplySight in about 4 hours. The ap
 
 ---
 
+## Design Decisions
+
+### KPIs Show Global Totals
+- KPIs intentionally show **all inventory**, not filtered results
+- This gives managers the full picture while drilling into details below
+- Filtered totals would be confusing when warehouse filter is applied
+
+### Trends vs KPIs Separation  
+- Spec says "chart from kpis(range)" but I split into `trends(range)` query
+- Cleaner separation of concerns: KPIs = current snapshot, Trends = historical
+- Both accept range for consistency, though KPIs show current state only
+
+---
+
 ## Trade-offs
 
 ### Prioritized
 - Clear, readable code over deep abstraction.  
 - Business logic correctness and UX polish.  
-- Working features > “perfect” architecture.  
+- Working features > "perfect" architecture.  
 
 ### Simplified
 - Mock GraphQL server runs in-browser (SchemaLink).  
