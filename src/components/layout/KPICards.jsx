@@ -23,7 +23,7 @@ function KPICard({ title, value, icon: Icon, color, suffix = '' }) {
 
 function KPICards() {
   const filters = useReactiveVar(filtersVar);
-  const { data, loading } = useQuery(GET_KPIS, { variables: { range: filters.dateRange }, pollInterval: 10000 });
+  const { data, loading } = useQuery(GET_KPIS, { variables: { range: filters.dateRange }, pollInterval: 5000 });
 
   if (loading && !data) {
     return (

@@ -54,20 +54,32 @@ export const resolvers = {
     },
     transferStock: (_, { fromWarehouse, toWarehouse, productId, quantity }) => {
       if (quantity <= 0) throw new Error('Quantity must be positive');
-      const product = mockProducts.find(p => p.id === productId && p.warehouse === fromWarehouse);
-      if (!product) throw new Error('Source product not found in fromWarehouse');
-      if (product.stock < quantity) throw new Error('Insufficient stock');
-      product.stock -= quantity;
-      product.lastUpdated = new Date().toISOString();
-
-      let target = mockProducts.find(p => p.id === productId && p.warehouse === toWarehouse);
-      if (!target) {
-        target = { ...product, warehouse: toWarehouse, stock: 0, lastUpdated: new Date().toISOString() };
-        mockProducts.push(target);
+      const sourceProduct = mockProducts.find(p => p.id === productId && p.warehouse === fromWarehouse);
+      if (!sourceProduct) throw new Error('Product not found in source warehouse');
+      if (sourceProduct.stock < quantity) throw new Error('Insufficient stock for transfer');
+      
+      sourceProduct.stock -= quantity;
+      sourceProduct.lastUpdated = new Date().toISOString();
+      
+      // Check if same SKU already exists in target warehouse
+      let targetProduct = mockProducts.find(p => p.sku === sourceProduct.sku && p.warehouse === toWarehouse);
+      
+      if (!targetProduct) {
+        // Create new product entry in target warehouse
+        targetProduct = {
+          ...sourceProduct,
+          id: `${sourceProduct.id}-${toWarehouse}`, // Unique ID per warehouse
+          warehouse: toWarehouse,
+          stock: quantity,
+          lastUpdated: new Date().toISOString()
+        };
+        mockProducts.push(targetProduct);
+      } else {
+        targetProduct.stock += quantity;
+        targetProduct.lastUpdated = new Date().toISOString();
       }
-      target.stock += quantity;
-      target.lastUpdated = new Date().toISOString();
-      return target;
+      
+      return targetProduct;
     }
   }
 };

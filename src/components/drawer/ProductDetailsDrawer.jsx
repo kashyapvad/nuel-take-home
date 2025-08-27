@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Package, TrendingUp, ArrowRightLeft } from 'lucide-react';
 import { useQuery, useMutation, useReactiveVar } from '@apollo/client';
 import { GET_PRODUCT, GET_WAREHOUSES, UPDATE_DEMAND, TRANSFER_STOCK, GET_PRODUCTS } from '../../graphql/queries';
@@ -17,14 +17,33 @@ function ProductDetailsDrawer() {
   const [targetWarehouse, setTargetWarehouse] = useState('');
 
   const [updateDemand, { loading: updating }] = useMutation(UPDATE_DEMAND, {
-    refetchQueries: [{ query: GET_PRODUCT, variables: { id: drawer.productId } }, { query: GET_PRODUCTS, variables: { ...filters, offset: 0, limit: 10 } }]
+    refetchQueries: [{ query: GET_PRODUCT, variables: { id: drawer.productId } }, { query: GET_PRODUCTS, variables: { ...filters, offset: 0, limit: 10 } }],
+    onCompleted: () => {
+      alert('Demand updated successfully');
+      setDemand('');
+    },
+    onError: (err) => alert(`Error updating demand: ${err.message}`)
   });
 
   const [transferStock, { loading: transferring }] = useMutation(TRANSFER_STOCK, {
-    refetchQueries: [{ query: GET_PRODUCT, variables: { id: drawer.productId } }, { query: GET_PRODUCTS, variables: { ...filters, offset: 0, limit: 10 } }]
+    refetchQueries: [{ query: GET_PRODUCT, variables: { id: drawer.productId } }, { query: GET_PRODUCTS, variables: { ...filters, offset: 0, limit: 10 } }],
+    onCompleted: () => {
+      alert('Stock transferred successfully');
+      setQty('');
+      setTargetWarehouse('');
+    },
+    onError: (err) => alert(`Error transferring stock: ${err.message}`)
   });
 
   const close = () => drawerVar({ isOpen: false, productId: null });
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && drawer.isOpen) close();
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [drawer.isOpen]);
 
   if (!drawer.isOpen) return null;
 

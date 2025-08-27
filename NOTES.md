@@ -34,7 +34,6 @@ I built a real-time inventory dashboard for SupplySight in about 4 hours. The ap
 2. **Pagination** (10 items/page) for efficiency.  
 3. **Polling** tuned (5s for KPIs, 10s for trends) for freshness vs load.  
 4. **Skeleton loaders** for better perceived performance.  
-5. **Optimistic UI updates** so mutations feel instant.  
 
 ---
 
@@ -44,10 +43,10 @@ I built a real-time inventory dashboard for SupplySight in about 4 hours. The ap
 - Added 8 extra products (P-1005 → P-1012), including electronic parts, to better showcase pagination and filtering.
 
 ### UI/UX Touches
-- Display product IDs under names for clarity.  
 - KPI cards include icons for visual hierarchy.  
-- Skeletons instead of spinners.  
-- Drawer closes via **Esc** for quick navigation.  
+- Skeleton loaders for perceived performance.  
+- Drawer closes via **Esc** key for quick navigation.
+- Critical rows highlighted with red background.  
 
 ---
 
@@ -59,21 +58,22 @@ I built a real-time inventory dashboard for SupplySight in about 4 hours. The ap
 - Working features > “perfect” architecture.  
 
 ### Simplified
-- Mock GraphQL server runs in-browser.  
-- Minimal validation (alerts instead of toasts).  
+- Mock GraphQL server runs in-browser (SchemaLink).  
+- Basic validation & feedback (alerts instead of toasts).  
 - No tests (time-boxed).  
 - Desktop-first (limited mobile responsive).
+- Refetch instead of optimistic updates (simpler).
 
 ---
 
 ## What I'd Improve (with more time)
 
 ### Next 2 hours
-- Replace `alert()` with proper toast notifications
+- Replace `alert()` with proper toast notifications (react-hot-toast)
 - Add unit tests for business logic (status calcs, fill rate)
-- Better loading states (keep last data while refetching)
-- Form validation with helpful error messages
-- Keyboard navigation (arrow keys in table)
+- Optimistic updates with rollback on failure
+- Form validation with inline error messages
+- Better inventory tracking across warehouses (currently creates unique IDs per warehouse)
 
 ### Next day
 - Export to CSV/Excel functionality  
