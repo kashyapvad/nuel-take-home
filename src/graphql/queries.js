@@ -1,15 +1,19 @@
+
 import { gql } from '@apollo/client';
 
 export const GET_PRODUCTS = gql`
   query GetProducts($search: String, $warehouse: String, $status: String, $offset: Int, $limit: Int) {
     products(search: $search, warehouse: $warehouse, status: $status, offset: $offset, limit: $limit) {
-      id
-      name
-      sku
-      warehouse
-      stock
-      demand
-      lastUpdated
+      totalCount
+      items {
+        id
+        name
+        sku
+        warehouse
+        stock
+        demand
+        lastUpdated
+      }
     }
   }
 `;
@@ -35,7 +39,7 @@ export const GET_WAREHOUSES = gql`
 `;
 
 export const GET_KPIS = gql`
-  query GetKPIs($range: String!) {
+  query GetKpis($range: String!) {
     kpis(range: $range) {
       totalStock
       totalDemand
@@ -58,11 +62,8 @@ export const UPDATE_DEMAND = gql`
   mutation UpdateDemand($id: ID!, $demand: Int!) {
     updateDemand(id: $id, demand: $demand) {
       id
-      name
-      sku
-      warehouse
-      stock
       demand
+      stock
       lastUpdated
     }
   }

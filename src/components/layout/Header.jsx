@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import { Package } from 'lucide-react';
 import { filtersVar } from '../../graphql/client';
 import { useReactiveVar } from '@apollo/client';
@@ -11,31 +11,32 @@ const dateRanges = [
 
 function Header() {
   const filters = useReactiveVar(filtersVar);
-  
-  const handleRangeChange = (range) => {
-    filtersVar({ ...filters, dateRange: range });
+
+  const handleRangeChange = (value) => {
+    filtersVar({ ...filters, dateRange: value });
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <Package className="h-8 w-8 text-primary-600" />
-          <h1 className="text-2xl font-bold text-gray-900">SupplySight</h1>
+    <header className="bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary-600 text-white">
+            <Package className="w-5 h-5" />
+          </div>
+          <h1 className="text-xl font-semibold text-gray-900">SupplySight Dashboard</h1>
         </div>
-        
-        <div className="flex items-center space-x-2">
-          {dateRanges.map((range) => (
+        <div className="flex items-center gap-2">
+          {dateRanges.map((r) => (
             <button
-              key={range.value}
-              onClick={() => handleRangeChange(range.value)}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                filters.dateRange === range.value
-                  ? 'bg-primary-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              key={r.value}
+              onClick={() => handleRangeChange(r.value)}
+              className={`px-3 py-1.5 text-sm rounded-md border ${
+                filters.dateRange === r.value
+                  ? 'bg-primary-600 border-primary-600 text-white'
+                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
               }`}
             >
-              {range.label}
+              {r.label}
             </button>
           ))}
         </div>

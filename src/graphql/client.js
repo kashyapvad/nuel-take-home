@@ -1,22 +1,19 @@
+
 import { ApolloClient, InMemoryCache, makeVar } from '@apollo/client';
 import { SchemaLink } from '@apollo/client/link/schema';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { typeDefs } from './schema';
 import { resolvers } from './resolvers';
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 export const apolloClient = new ApolloClient({
   link: new SchemaLink({ schema }),
   cache: new InMemoryCache(),
   defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'cache-and-network',
-    },
-  },
+    watchQuery: { fetchPolicy: 'cache-and-network' },
+    query: { fetchPolicy: 'cache-first' }
+  }
 });
 
 export const filtersVar = makeVar({
